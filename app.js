@@ -5,12 +5,16 @@ const app=express();
 const PORT=process.env.PORT ||5000;
 
 const studentRouter=require("./router/studentRoutes");
-const teacherRoutes=require("./router/teacherRoutes")
+const teacherRoutes=require("./router/teacherRoutes");
+const classRoutes=require("./router/classRoutes");
 
 app.use(express.json());
+require("dotenv").config();
+
 
 app.use("/student",studentRouter);
 app.use("/teacher",teacherRoutes);
+app.use("/class",classRoutes);
 
 
 

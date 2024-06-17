@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const students = await studentModel.getStudents();
-    res.json(students);
+    const student = await studentModel.getStudents();
+    res.json(student);
   } catch (error) {
     res.status(500).json({ error: 'Failed to get students' });
   }
