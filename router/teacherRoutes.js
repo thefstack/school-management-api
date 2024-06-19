@@ -2,6 +2,9 @@ const express=require('express');
 const router=express.Router();
 const teacherModel=require("../models/teacherModel");
 
+const teacherAttendance=require("./teacher_attendanceRoute");
+
+router.use("/attendance",teacherAttendance);
 
 router.post("/",async(req,res)=>{
     try{

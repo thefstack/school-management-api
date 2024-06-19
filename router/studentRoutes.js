@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const studentModel = require('../models/studentModel');
 
+const student_attendance=require("./student_attendanceRoute");
+
+router.use("/attendance",student_attendance)
+
 router.post('/', async (req, res) => {
   try {
     const studentId = await studentModel.createStudent(req.body);
