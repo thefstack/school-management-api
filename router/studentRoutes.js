@@ -3,10 +3,10 @@ const router = express.Router();
 const studentModel = require('../models/studentModel');
 
 const student_attendance=require("./student_attendanceRoute");
-
+const {authenticateToken}=require("../middleware/authToken")
 router.use("/attendance",student_attendance)
 
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const studentId = await studentModel.createStudent(req.body);
     res.status(201).json({ id: studentId });
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
   try {
     const student = await studentModel.getStudentById(req.params.id);
     if (student) {
-      res.json(student);
+      res.status(200).json(student);
     } else {
       res.status(404).json({ error: 'Student not found' });
     }
