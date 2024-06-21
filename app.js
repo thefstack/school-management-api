@@ -7,17 +7,20 @@ const studentRouter = require("./router/studentRoutes");
 const teacherRoutes = require("./router/teacherRoutes");
 const classRoutes = require("./router/classRoutes");
 const subjectRoutes = require("./router/subjectRoutes");
-const userRoute=require("./router/userRouter")
+const userRoute=require("./router/userRouter");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
+app.use(cookieParser())
 require("dotenv").config();
 
 
+app.use("/user",userRoute);
 app.use("/student", studentRouter);
 app.use("/teacher", teacherRoutes);
 app.use("/class", classRoutes);
 app.use("/subject", subjectRoutes);
-app.use("/user",userRoute);
+
 
 
 app.get("/", async (req, res) => {

@@ -15,7 +15,7 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
+router.get('/',authenticateToken, async (req, res) => {
   try {
     const student = await studentModel.getStudents();
     res.json(student);
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',authenticateToken, async (req, res) => {
   try {
     const student = await studentModel.getStudentById(req.params.id);
     if (student) {
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id',authenticateToken, async (req, res) => {
     const studentId = req.params.id;
     const updateData = req.body;
   
@@ -50,7 +50,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',authenticateToken, async (req, res) => {
   try {
     const affectedRows = await studentModel.deleteStudent(req.params.id);
     if (affectedRows > 0) {

@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
+const pool=require("../db/conn")
 
 const authenticateToken = (req, res, next) => {
     
     const token=req.cookies.token;
+    
 
     if (!token) return res.status(401).json({ error: 'Access denied' });
 
@@ -11,8 +13,7 @@ const authenticateToken = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid token' });}
             try {
                 const sql = 'SELECT token FROM users WHERE user_id = ?';
-                const [rows] = await pool.execute(sql, [user.id]);
-    
+                const [rows] = await pool.execute(sql, [user.user]);
                 if (rows.length === 0 || rows[0].token !== token) {
                     return res.status(403).json({ error: 'Invalid token' });
                 }

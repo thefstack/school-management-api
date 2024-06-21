@@ -1,9 +1,9 @@
 const express=require("express");
 const router=express.Router();
 const Student_attendanceModel=require("../models/student_attendanceModel")
+const {authenticateToken,authorizeAdmin}=require("../middleware/authToken")
 
-
-router.post("/",async(req,res)=>{
+router.post("/",authenticateToken,async(req,res)=>{
     try{
         const attendance=await Student_attendanceModel.createStudent_attendance(req.body);
         res.status(200).json({attendance});
@@ -12,7 +12,7 @@ router.post("/",async(req,res)=>{
     }
 })
 
-router.get("/",async(req,res)=>{
+router.get("/",authenticateToken,async(req,res)=>{
     try{
         const attendance=await Student_attendanceModel.getStudent_attendance();
         res.status(200).json({attendance});
@@ -21,7 +21,7 @@ router.get("/",async(req,res)=>{
     }
 })
 
-router.get("/:studentid",async(req,res)=>{
+router.get("/:studentid",authenticateToken,async(req,res)=>{
     try{
         const studentid=req.params.studentid;
         let attendance;
@@ -43,7 +43,7 @@ router.get("/:studentid",async(req,res)=>{
     }
 })
 
-router.put("/:id",async(req,res)=>{
+router.put("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const attendance=await Student_attendanceModel.updateStudent_attendance(req.params.id, req.body);
         res.status(200).json({attendance});
@@ -52,7 +52,7 @@ router.put("/:id",async(req,res)=>{
     }
 })
 
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const attendance=await Student_attendanceModel.deleteStudent_attendance(req.params.id);
         res.status(200).json({attendance});

@@ -11,7 +11,7 @@ const createUser=async(userData)=>{
             hashPassword,
             hashPassword
         ];
-
+        
         const user= await pool.execute(sql,values);
         return true;
     }catch(error){
@@ -19,10 +19,20 @@ const createUser=async(userData)=>{
     }
 };
 
-
-const getToken=async(id)=>{
+const getUser=async(id)=>{
     try{
-        const sql=`select token from users where user_id=?`;
+        const sql=`select * from users`;
+        const [user]=await pool.execute(sql);
+        return user[0];
+    }catch(error){
+        console.log("error")
+        throw error;
+    }
+}
+
+const getUserById=async(id)=>{
+    try{
+        const sql=`select * from users where user_id=?`;
         const [user]=await pool.execute(sql,[id]);
         return user[0];
     }catch(error){
@@ -67,7 +77,8 @@ const deleteUser=async(id)=>{
 
 module.exports={
     createUser,
-    getToken,
+    getUser,
+    getUserById,
     updateUser,
     deleteUser
 }

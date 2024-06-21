@@ -1,9 +1,9 @@
 const express=require("express");
 const router=express.Router();
 const classModel=require("../models/classModel");
+const {authenticateToken,authorizeAdmin}=require("../middleware/authToken")
 
-
-router.post("/",async(req,res)=>{
+router.post("/",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const classes=await classModel.createClasses(req.body);
         res.status(200).json({classes})
@@ -12,7 +12,7 @@ router.post("/",async(req,res)=>{
     }
 })
 
-router.get("/",async(req,res)=>{
+router.get("/",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         
         const classes=await classModel.getClasses();
@@ -23,7 +23,7 @@ router.get("/",async(req,res)=>{
 
 })
 
-router.get("/:id",async(req,res)=>{
+router.get("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         
         const classes=await classModel.getClassesById(req.params.id);
@@ -34,7 +34,7 @@ router.get("/:id",async(req,res)=>{
 
 })
 
-router.put("/:id",async(req,res)=>{
+router.put("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const classes=await classModel.updateClasses(req.params.id,req.body);
         res.status(200).json({classes});
@@ -44,7 +44,7 @@ router.put("/:id",async(req,res)=>{
     }
 })
 
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const classes=await classModel
         .deleteClasses(req.params.id);

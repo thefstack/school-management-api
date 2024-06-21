@@ -3,10 +3,11 @@ const router=express.Router();
 const teacherModel=require("../models/teacherModel");
 
 const teacherAttendance=require("./teacher_attendanceRoute");
+const {authenticateToken,authorizeAdmin}=require("../middleware/authToken")
 
 router.use("/attendance",teacherAttendance);
 
-router.post("/",async(req,res)=>{
+router.post("/",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const teacherId=await teacherModel.createTeacher(req.body);
         res.status(200).json({id:teacherId})
@@ -16,7 +17,7 @@ router.post("/",async(req,res)=>{
     }
 })
 
-router.get("/",async(req,res)=>{
+router.get("/",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const teacher=await teacherModel.getTeacher();
         res.status(200).json(teacher);
@@ -25,7 +26,7 @@ router.get("/",async(req,res)=>{
     }
 })
 
-router.get("/:id",async(req,res)=>{
+router.get("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const teacher=await teacherModel.getTeacherById(req.params.id);
         res.status(200).json(teacher);
@@ -35,7 +36,7 @@ router.get("/:id",async(req,res)=>{
     }
 })
 
-router.put("/:id",async(req,res)=>{
+router.put("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const teacher=await teacherModel.updateTeacher
         (req.params.id,req.body);
@@ -47,7 +48,7 @@ router.put("/:id",async(req,res)=>{
     }
 })
 
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",authenticateToken,authorizeAdmin,async(req,res)=>{
     try{
         const teacher=await teacherModel.deleteTeacher(req.params.id);
 
